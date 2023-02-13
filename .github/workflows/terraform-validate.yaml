@@ -1,0 +1,25 @@
+name: terraform validate
+on:
+  - pull_request
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - uses: hashicorp/setup-terraform@v2
+
+    - name: terraform init
+      run: terraform init -input=false -backend=false
+      working-directory: tfrb
+
+    - name: terraform validate
+      run: terraform validate
+      working-directory: tfrb
+
+    - name: terraform init
+      run: terraform init -input=false -backend=false
+      working-directory: workload
+
+    - name: terraform validate
+      run: terraform validate
+      working-directory: workload
